@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.VERCEL_USERNAME }}
           password: ${{ secrets.VERCEL_TOKEN }}
 
-      - uses: vercel/vercel@v1
+      - uses: vercel/vercel@latest
         with:
           project-name: app-security
 
