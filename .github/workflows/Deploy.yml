@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-buildx@v1
+      - name: Build image
+        run: docker build -t my-app .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Vercel
+        run: |
+          echo ${{ secrets.VERCEL_TOKEN }} | docker login vercel --username=_ --password-stdin
+      - name: Push image to Vercel
+        run: docker push vercel/my-app
+      - name: Upload to S3
+        run: |
+          docker run --rm -it -v $(pwd):/app -w /app lambci/lambda:build-python3.8 pip install awscli
+          aws s3 cp ./my-app.zip s3://security-app-mai
