@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/docker/login@v2
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.VERCEL_USERNAME }}
           password: ${{ secrets.VERCEL_TOKEN }}
