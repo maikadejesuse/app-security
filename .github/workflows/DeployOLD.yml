@@ -19,12 +19,23 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
-      - name: Login to Vercel
-        run: |
-          echo "${{ secrets.VERCEL_TOKEN }}" | docker login -u ${{ secrets.VERCEL_USERNAME }} --password-stdin
-      # - name: Push image to Vercel
-      #   run: docker push vercel/my-app
-      # - name: Upload to S3
+
+      - uses: actions/docker/login@v2
+        with:
+          username: ${{ secrets.VERCEL_USERNAME }}
+          password: ${{ secrets.VERCEL_TOKEN }}
+
+      - uses: vercel/vercel@v1
+        with:
+          project-name: app-security
+
+      # - name: Login to Vercel
       #   run: |
-      #     docker run --rm -it -v $(pwd):/app -w /app lambci/lambda:build-python3.8 pip install awscli
-      #     aws s3 cp ./my-app.zip s3://security-app-mai
+      #     echo "${{ secrets.VERCEL_TOKEN }}" | docker login -u ${{ secrets.VERCEL_USERNAME }} --password-stdin
+
+      - name: Push image to Vercel
+        run: docker push vercel/my-app
+      - name: Upload to S3
+        run: |
+          docker run --rm -it -v $(pwd):/app -w /app lambci/lambda:build-python3.8 pip install awscli
+          aws s3 cp ./my-app.zip s3://security-app-mai
