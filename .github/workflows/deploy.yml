@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-    
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -29,6 +29,11 @@ jobs:
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        
+      - name: Upload to S3
+        run: |
+          docker run --rm -it -v $(pwd):/app -w /app lambci/lambda:build-python3.8 pip install awscli
+          aws s3 cp ./my-app.zip s3://security-app-mai
 
 #   deploy_production:
 #     runs-on: ubuntu-latest
