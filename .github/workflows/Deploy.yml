@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Login to Vercel
         run: |
-          echo ${{ secrets.VERCEL_TOKEN }} | docker login vercel --username=_ --password-stdin
+          echo ${{ secrets.VERCEL_TOKEN }} | docker login vercel --token=${{ secrets.VERCEL_TOKEN }}
       - name: Push image to Vercel
         run: docker push vercel/my-app
       - name: Upload to S3
