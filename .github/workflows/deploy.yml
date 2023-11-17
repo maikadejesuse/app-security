@@ -14,47 +14,60 @@ jobs:
       - uses: docker/setup-buildx-action@v1
       - name: Build image
         run: docker build -t my-app .
-
-  vercel_repository:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install vercel
-        run: npm install -g vercel
-
-      - name: Build for preview
-        run: |
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-
-  deploy_s3:
-    needs: vercel_repository
-    runs-on: ubuntu-latest
-        
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Download Vercel image
-        run: |
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          docker save my-app > my-app.zip
-
-      - name: Setup SAM
-        uses: aws-actions/setup-sam@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Upload to S3
+          name: my-app
+          path: my_file.zip
+          retention-days: 5
+      - name: Find my-app.zip
+        shell: bash
         run: |
-          aws s3 cp ./my-app.zip s3://security-app-mai
+            ls /
+
+  # vercel_repository:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Install vercel
+  #       run: npm install -g vercel
+
+  #     - name: Build for preview
+  #       run: |
+  #         vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+  #         vercel build --token=${{ secrets.VERCEL_TOKEN }}
+  #         vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+  # deploy_s3:
+  #   needs: vercel_repository
+  #   runs-on: ubuntu-latest
+        
+  #   steps:
+  #     - uses: actions/checkout@v2
+      
+  #     - name: Download Vercel image
+  #       run: |
+  #         vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+  #         docker save my-app > my-app.zip
+
+  #     - name: Setup SAM
+  #       uses: aws-actions/setup-sam@v2
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-2
+
+  #     - name: Upload to S3
+  #       run: |
+  #         aws s3 cp ./my-app.zip s3://security-app-mai
+
+
+#__________________________________________________________________________________
 
     #   - name: Upload to S3
     #     run: |
