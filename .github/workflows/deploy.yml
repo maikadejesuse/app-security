@@ -22,7 +22,14 @@ jobs:
       - name: Find my-app.zip
         shell: bash
         run: |
-           ls 
+           ls
+      - name: Install vercel
+        run: npm install -g vercel
+      - name: Build for preview
+        run: |
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --name my-app my-app.zip
       
       # - name: Pull image
       #   uses: docker/build-push-action@v2
@@ -50,20 +57,20 @@ jobs:
       #   run: |
       #       ls /
 
-  vercel_repository:
-     needs: build
-     runs-on: ubuntu-latest
+  # vercel_repository:
+  #    needs: build
+  #    runs-on: ubuntu-latest
 
-     steps:
-       - uses: actions/checkout@v2
-       - name: Install vercel
-         run: npm install -g vercel
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - name: Install vercel
+  #        run: npm install -g vercel
 
-       - name: Build for preview
-         run: |
-           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-           vercel build --token=${{ secrets.VERCEL_TOKEN }}
-           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --name my-app my-app.zip
+  #      - name: Build for preview
+  #        run: |
+  #          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+  #          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+  #          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --name my-app my-app.zip
 #           vercel deploy --prebuilt --name my-app my-app.zip
 
 
