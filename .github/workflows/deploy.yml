@@ -27,9 +27,9 @@ jobs:
         run: npm install -g vercel
       - name: Build for preview
         run: |
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --name my-app my-app.zip
+          echo "Deploying to Vercel..."
+          docker push my-app
+          vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --image docker://my-app:latest
       
       # - name: Pull image
       #   uses: docker/build-push-action@v2
