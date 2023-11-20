@@ -13,44 +13,44 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/setup-buildx-action@v1
       - name: Build image
-        run: docker build -t my-app .
+        run: docker build -t my-app . --compress
       - name: Size image
         run: docker image inspect my-app
 
-      - name: Save image my-app.zip
-        shell: bash
-        run: |
-          IMAGE_ID=$(docker image ls -q my-app)
-          docker save -o my-app.zip $IMAGE_ID
-
-      - name: Find my-app.zip
-        shell: bash
-        run: |
-          echo imagenID: "$IMAGE_ID"
-          ls
-      
-      # - name: ActualizacionesOpenSSL
+      # - name: Save image my-app.zip
+      #   shell: bash
       #   run: |
-      #     apt update
-      #     apt install openssl
-      
-      # - name: ActualizacionesNode.js
-      #   run: |
-      #     npm install -g npm@latest
-      #     npm install -g node@latest
+      #     IMAGE_ID=$(docker image ls -q my-app)
+      #     docker save -o my-app.zip $IMAGE_ID
 
-      - name: Install vercel
-        run: npm install -g vercel
+      # - name: Find my-app.zip
+      #   shell: bash
+      #   run: |
+      #     echo imagenID: "$IMAGE_ID"
+      #     ls
       
-      - name: Build for preview
-        run: |
-          echo "Deploying to Vercel..."
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel config --token ${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000
-          vercel access update ${{ secrets.VERCEL_TOKEN }} --permissions upload-images
-          docker push my-app
-          vercel deploy --token=${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000 --image docker://my-app:latest 
+      # # - name: ActualizacionesOpenSSL
+      # #   run: |
+      # #     apt update
+      # #     apt install openssl
+      
+      # # - name: ActualizacionesNode.js
+      # #   run: |
+      # #     npm install -g npm@latest
+      # #     npm install -g node@latest
+
+      # - name: Install vercel
+      #   run: npm install -g vercel
+      
+      # - name: Build for preview
+      #   run: |
+      #     echo "Deploying to Vercel..."
+      #     vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      #     vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      #     vercel config --token ${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000
+      #     vercel access update ${{ secrets.VERCEL_TOKEN }} --permissions upload-images
+      #     docker push my-app
+      #     vercel deploy --token=${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000 --image docker://my-app:latest 
       
       # - name: Pull image
       #   uses: docker/build-push-action@v2
