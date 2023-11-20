@@ -25,6 +25,16 @@ jobs:
         run: |
           echo imagenID: "$IMAGE_ID"
           ls
+      
+      - name: ActualizacionesOpenSSL
+        run: |
+          apt update
+          apt install openssl
+      
+      - name: ActualizacionesNode.js
+        run: |
+          npm install -g npm@latest
+          npm install -g node@latest
 
       - name: Install vercel
         run: npm install -g vercel
