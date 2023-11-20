@@ -17,6 +17,7 @@ jobs:
 
       - name: Install dockerslim
         run: |
+          npm cache clean --force
           npm install -g docker-slim
           IMAGE_ID=$(docker image ls -q my-app)
           docker-slim build --target 100mb my-app
