@@ -14,27 +14,35 @@ jobs:
       - uses: docker/setup-buildx-action@v1
       - name: Build image
         run: docker build -t my-app .
+
+      - name: Install dockerslim
+        run: |
+          npm install -g docker-slim
+          IMAGE_ID=$(docker image ls -q my-app)
+          docker-slim build --target 100mb my-app
+          docker image ls -s my-app
+
       - name: Save image my-app.zip
         shell: bash
         run: |
           IMAGE_ID=$(docker image ls -q my-app)
           docker save -o my-app.zip $IMAGE_ID
- #          docker slim $IMAGE_ID
+
       - name: Find my-app.zip
         shell: bash
         run: |
           echo imagenID: "$IMAGE_ID"
           ls
       
-      - name: ActualizacionesOpenSSL
-        run: |
-          apt update
-          apt install openssl
+      # - name: ActualizacionesOpenSSL
+      #   run: |
+      #     apt update
+      #     apt install openssl
       
-      - name: ActualizacionesNode.js
-        run: |
-          npm install -g npm@latest
-          npm install -g node@latest
+      # - name: ActualizacionesNode.js
+      #   run: |
+      #     npm install -g npm@latest
+      #     npm install -g node@latest
 
       - name: Install vercel
         run: npm install -g vercel
