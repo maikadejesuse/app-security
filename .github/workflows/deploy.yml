@@ -50,7 +50,7 @@ jobs:
           vercel config --token ${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000
           vercel access update ${{ secrets.VERCEL_TOKEN }} --permissions upload-images
           docker push my-app
-          vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --image docker://my-app:latest
+          vercel deploy --token=${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000 --image docker://my-app:latest 
       
       # - name: Pull image
       #   uses: docker/build-push-action@v2
