@@ -14,8 +14,15 @@ jobs:
       - uses: docker/setup-buildx-action@v1
       - name: Build image
         run: docker build -t my-app . --compress
-      - name: Size image
-        run: docker image ls --size
+
+      - name: Guardar la imagen en formato tar
+        shell: bash
+        run: |
+          IMAGE_ID=$(docker image ls -q my-app)
+          docker save -o my-app.tar $IMAGE_ID
+      
+      - name: Mostrar el tamaño del archivo tar
+        run: du -h my-app.tar
 
       # - name: Save image my-app.zip
       #   shell: bash
