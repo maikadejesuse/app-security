@@ -11,33 +11,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-       - uses: docker/setup-buildx-action@v1
-       - name: Build image
-         run: docker build -t my-app .
-       - name: Save image my-app.zip
-         shell: bash
-         run: |
-           IMAGE_ID=$(docker image ls -q my-app)
-           docker save -o my-app.zip $IMAGE_ID
+      - uses: docker/setup-buildx-action@v1
+      - name: Build image
+        run: docker build -t my-app .
+      - name: Save image my-app.zip
+        shell: bash
+        run: |
+          IMAGE_ID=$(docker image ls -q my-app)
+          docker save -o my-app.zip $IMAGE_ID
  #          docker slim $IMAGE_ID
-       - name: Find my-app.zip
-         shell: bash
-         run: |
-            echo imagenID: "$IMAGE_ID"
-            ls
-            
+      - name: Find my-app.zip
+        shell: bash
+        run: |
+          echo imagenID: "$IMAGE_ID"
+          ls
+
       - name: Install vercel
         run: npm install -g vercel
       
-       - name: Build for preview
-         run: |
-           echo "Deploying to Vercel..."
-           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-           vercel build --token=${{ secrets.VERCEL_TOKEN }}
-           vercel config --token ${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000
-           vercel access update ${{ secrets.VERCEL_TOKEN }} --permissions upload-images
-           docker push my-app
-           vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --image docker://my-app:latest
+      - name: Build for preview
+        run: |
+          echo "Deploying to Vercel..."
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel config --token ${{ secrets.VERCEL_TOKEN }} set IMAGE_MAX_SIZE=1000
+          vercel access update ${{ secrets.VERCEL_TOKEN }} --permissions upload-images
+          docker push my-app
+          vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --image docker://my-app:latest
       
       # - name: Pull image
       #   uses: docker/build-push-action@v2
