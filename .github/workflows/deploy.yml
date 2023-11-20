@@ -19,9 +19,11 @@ jobs:
         run: |
           IMAGE_ID=$(docker image ls -q my-app)
           docker save -o my-app.zip $IMAGE_ID
+          docker slim $IMAGE_ID
       - name: Find my-app.zip
         shell: bash
         run: |
+           echo imagenID: "$IMAGE_ID"
            ls
       - name: Install vercel
         run: npm install -g vercel
