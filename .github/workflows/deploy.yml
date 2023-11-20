@@ -31,7 +31,7 @@ jobs:
       - name: Subir imagesize
         run: |
           echo "Subiendo size..."}
-          vercel config set --token ${{ secrets.VERCEL_TOKEN }} IMAGE_MAX_SIZE=1000 --project app-security
+          vercel config set --token ${{ secrets.VERCEL_TOKEN }} IMAGE_MAX_SIZE=1000
           vercel config get
 #           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 #           vercel build --token=${{ secrets.VERCEL_TOKEN }}
