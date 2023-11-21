@@ -12,6 +12,7 @@ jobs:
       - name: Leer variable
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}"
+          echo "${{ secrets.VERCEL_TOKEN }}"
 
       # - uses: actions/checkout@v2
       # - uses: docker/setup-buildx-action@v1
