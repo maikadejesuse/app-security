@@ -19,7 +19,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          repository: 0028101996/app-security
+          repository: 0028101996/app-security:my-app
           tag: latest
           token: ${{ secrets.DOCKERHUB_TOKEN }}
 
