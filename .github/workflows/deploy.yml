@@ -16,7 +16,7 @@ jobs:
         run: docker build -t my-app .
 
       - name: Instalar docker slim
-        run: go get github.com/docker-slim/docker-slim
+        run: go install github.com/docker-slim/docker-slim@latest
       
       # - name: Mostrar el tamaño del archivo tar
       #   run: du -h my-app.tar
