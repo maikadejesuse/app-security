@@ -18,66 +18,21 @@ jobs:
       - name: Push image
         run: docker push 0028101996/app-security
 
-#############____________ESTO FUNCIONA______________##################
-
-      # - name: Docker Hub
-      #   run: | 
-      #      docker login -u 0028101996 -p ${{ secrets.DOCKERHUB_PASS }}
-      #      docker build -t 0028101996/app-security .
-      #      docker push 0028101996/app-security
-#############____________ESTO FUNCIONA______________##################
-    
-
-#          docker build -t app-security:1.0.0 .
-
-      # - name: Push image to Docker Hub
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: Dockerfile
-      #     push: true
-      #     repository: 0028101996/app-security:my-app
-      #     tag: latest
-      #     token: ${{ secrets.DOCKERHUB_TOKEN }}
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: docker/setup-buildx-action@v1
-#       - name: Build image
-#         run: docker build -t my-app:latest .
-
-#   store:
-#     runs-on: ubuntu-latest
-#     needs: build
-#     steps:
-#         - uses: actions/checkout@v2
-#         - uses: docker/build-push-action@v2
-#           with:
-#             context: .
-#             file: Dockerfile
-#             push: true
-#             repository: 0028101996/app-security
-#             tag: latest
-#             token: ${{ secrets.DOCKERHUB_TOKEN }}
-
-  # Deploy-Preview:
-  #   runs-on: ubuntu-latest
-  #   needs: store
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Install Vercel CLI
-  #       run: npm install --global vercel@latest
-  #     - name: Pull Vercel Environment Information
-  #       run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-  #     - name: Build Project Artifacts
-  #       run: |
-  #         docker pull 0028101996/app-security/my-app:latest
-  #         docker run -p 80:80 0028101996/app-security/my-app:latest
-  #     - name: Deploy Project Artifacts to Vercel
-  #       run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+  Deploy-Preview:
+    runs-on: ubuntu-latest
+    needs: build-and-store
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: |
+          docker pull 0028101996/app-security:latest
+          docker run -p 80:80 0028101996/app-security:latest
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
   # deploy:
   #   needs: build
