@@ -30,13 +30,11 @@ jobs:
       # - name: Build image
       #   run: docker build -t app-security:latest .
 
-
-
       - name: Docker Hub
         run: | 
            docker login -u contactomaikaesteves@gmail.com -p ${{ secrets.DOCKERHUB_TOKEN }}
-           docker pull ubuntu
-           docker push ubuntu:latest
+           docker build -t app-security:1.0.0 .
+           docker push app-security:1.0.0
     
 
 #          docker build -t app-security:1.0.0 .
