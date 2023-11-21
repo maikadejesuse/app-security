@@ -18,7 +18,7 @@ jobs:
         run: | 
           docker login -u 0028101996 -p dckr_pat_HtrE3aT-Za_JchhPlSbfa8cDnEQ
           docker build -t app-security:latest .
-          docker push 0028101996/app-security:latest
+          docker push app-security:latest
 
       # - name: Push image to Docker Hub
       #   uses: docker/build-push-action@v2
