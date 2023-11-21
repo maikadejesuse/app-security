@@ -27,10 +27,10 @@ jobs:
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: |
-          docker pull 0028101996/app-security:latest
-          docker run -p 80:80 0028101996/app-security:latest
+      - name: Build Project Artifacts DockerPull
+        run: docker pull 0028101996/app-security:latest
+      - name: Build Project Artifacts DockerPull
+        run: docker run -p 80:80 0028101996/app-security:latest
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
