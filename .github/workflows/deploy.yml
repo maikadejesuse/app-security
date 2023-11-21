@@ -13,11 +13,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/setup-buildx-action@v1
       - name: Build image
-        run: docker build -t my-app:latest .
+        run: docker build -t app-security:latest .
       - name: Docker Hub
         run: | 
-          docker login -u 0028101996 -p dckr_pat_6sziMEw2vfk8edipgQpa9Qxe6EQ
-          docker push my-app:latest
+          docker login -u 0028101996 -p dckr_pat_HtrE3aT-Za_JchhPlSbfa8cDnEQ
+          docker push app-security:latest
 
       # - name: Push image to Docker Hub
       #   uses: docker/build-push-action@v2
