@@ -9,19 +9,15 @@ jobs:
   build-and-store:
     runs-on: ubuntu-latest
     steps:
-      - name: Leer variable
-        run: |
-          echo "${{ secrets.DOCKERHUB_TOKEN }}"
-          echo "${{ secrets.VERCEL_TOKEN }}"
 
-      # - uses: actions/checkout@v2
-      # - uses: docker/setup-buildx-action@v1
-      # - name: Build image
-      #   run: docker build -t my-app:latest .
-      # - name: Login to Docker Hub
-      #   run: docker login -u 0028101996 -p ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Push image to Docker Hub
-      #   run: docker push my-app:latest
+      - uses: actions/checkout@v2
+      - uses: docker/setup-buildx-action@v1
+      - name: Build image
+        run: docker build -t my-app:latest .
+      - name: Docker Hub
+        run: | 
+          docker login -u 0028101996 -p dckr_pat_6sziMEw2vfk8edipgQpa9Qxe6EQ
+          docker push my-app:latest
 
       # - name: Push image to Docker Hub
       #   uses: docker/build-push-action@v2
