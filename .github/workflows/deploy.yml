@@ -32,9 +32,9 @@ jobs:
 
       - name: Docker Hub
         run: | 
-           docker login -u contactomaikaesteves@gmail.com -p ${{ secrets.DOCKERHUB_TOKEN }}
-           docker build -t app-security:1.0.0 .
-           docker push app-security:1.0.0
+           docker login -u 0028101996 -p ${{ secrets.DOCKERHUB_PASS }}
+           docker build -t 0028101996/app-security .
+           docker push 0028101996/app-security
     
 
 #          docker build -t app-security:1.0.0 .
