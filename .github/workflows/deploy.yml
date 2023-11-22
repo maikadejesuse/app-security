@@ -30,7 +30,9 @@ jobs:
       - name: Ver donde estoy parada
         run: pwd
       - name: Build Project Artifacts DockerPull
-        run: docker pull 0028101996/app-security:latest
+        run: |
+          cd /home/runner/work/app-security/app-security
+          docker pull 0028101996/app-security:latest
 #        run: docker pull 0028101996/app-security:latest && docker build -t app-security-preview .
       # - name: Build Project Artifacts DockerRun
       #   run: docker run -p 80:80 0028101996/app-security:latest node --inspect
@@ -39,7 +41,9 @@ jobs:
       # - name: Validate App Name
       #   run: vercel config get projectName
       - name: Deploy Project Artifacts to Vercel
-        run: vercel --prod -t ${{ secrets.VERCEL_TOKEN }} 0028101996/app-security:latest
+        run:
+          cd /home/runner/work/app-security/app-security
+          vercel --prod -t ${{ secrets.VERCEL_TOKEN }} 0028101996/app-security:latest
 
   # deploy:
   #   needs: build
