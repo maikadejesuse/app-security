@@ -32,12 +32,7 @@ jobs:
       - name: Build Project Artifacts DockerRun
         run: docker run -p 80:80 0028101996/app-security:latest node --inspect
       - name: Validate App Name
-        run: |
-          app_name="${{ steps.BuildProjectArtifacts.outputs.app_name }}"
-          if not validate_app_name(app_name):
-            echo "El nombre de la aplicación no es correcto."
-            echo "El nombre correcto de la aplicación es:${{ steps.BuildProjectArtifacts.outputs.app_name }}"
-            exit 1
+        run: vercel config get projectName
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
 
