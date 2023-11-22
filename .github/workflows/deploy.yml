@@ -29,10 +29,10 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts DockerPull
         run: docker pull 0028101996/app-security:latest && docker build -t app-security-preview .
-      - name: Build Project Artifacts DockerRun
-        run: docker run -p 80:80 0028101996/app-security:latest node --inspect
+      # - name: Build Project Artifacts DockerRun
+      #   run: docker run -p 80:80 0028101996/app-security:latest node --inspect
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --project=app-security
+        run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
       # - name: Validate App Name
       #   run: vercel config get projectName
 
