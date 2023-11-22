@@ -41,9 +41,7 @@ jobs:
       # - name: Validate App Name
       #   run: vercel config get projectName
       - name: Deploy Project Artifacts to Vercel
-        run:
-          cd /home/runner/work/app-security/app-security
-          vercel --prod -t ${{ secrets.VERCEL_TOKEN }} 0028101996/app-security:latest
+        run: cd /home/runner/work/app-security/app-security && vercel --prod -t ${{ secrets.VERCEL_TOKEN }} 0028101996/app-security:latest
 
   # deploy:
   #   needs: build
